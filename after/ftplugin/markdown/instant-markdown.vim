@@ -61,8 +61,9 @@ endfu
 
 function! s:refreshView()
     let bufnr = expand('<bufnr>')
-    call s:systemasync("curl -X PUT -T - http://localhost:8090",
-                \ s:bufGetLines(bufnr))
+    let fileDir = expand('%:p:h')
+
+    call s:systemasync("curl -X PUT -H \"directory:" . fileDir . "\" -T - http://localhost:8090", s:bufGetLines(bufnr))
 endfu
 
 function! s:startDaemon(initialMDLines)
